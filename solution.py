@@ -1,17 +1,17 @@
 import pandas as pd
 import numpy as np
 
-from scipy.stats import norm
+from scipy import stats
 
 
-chat_id = 123456 # Ваш chat ID, не меняйте название переменной
+chat_id = 973327975 # Ваш chat ID, не меняйте название переменной
 
 def solution(p: float, x: np.array) -> tuple:
-    # Измените код этой функции
-    # Это будет вашим решением
-    # Не меняйте название функции и её аргументы
+    n = len(x)
     alpha = 1 - p
-    loc = x.mean()
-    scale = np.sqrt(np.var(x)) / np.sqrt(len(x))
-    return loc - scale * norm.ppf(1 - alpha / 2), \
-           loc - scale * norm.ppf(alpha / 2)
+    alpha_star = alpha / 2
+    chi2_left = stats.chi2.ppf(alpha_star, 2 * n)
+    chi2_right = stats.chi2.ppf(1 - alpha_star, 2 * n)
+    b_left = np.max(x) * (1 + (n / chi2_right))**(-1/ n)
+    b_right = np.max(x) * (1 + (n / chi2_left))**(-1/ n)
+    return b_left - b_right
