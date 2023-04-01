@@ -14,4 +14,4 @@ def solution(p: float, x: np.array) -> tuple:
     chi2_right = stats.chi2.ppf(1 - alpha_star, 2 * n)
     b_left = np.max(x) * (1 + (n / chi2_right))**(-1/ n)
     b_right = np.max(x) * (1 + (n / chi2_left))**(-1/ n)
-    return b_left - b_right
+    return (b_left, b_right)
